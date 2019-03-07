@@ -1,6 +1,5 @@
 # Symfony/Doctrine Seed Bundle
 
-[![Build Status](https://travis-ci.org/ds-restauration/SeedBundle.svg?branch=master)](https://travis-ci.org/ds-restauration/SeedBundle)
 ## Description
 
 Generates and persists seed data.
