@@ -3,7 +3,7 @@
 ## Description
 
 Generates and persists seed data.
-Derived from Soyuka's seed bundle: https://github.com/DsRestauration/SeedBundle
+Derived from Soyuka's seed bundle: https://github.com/soyuka/SeedBundle
 
 ## Configuration
 
