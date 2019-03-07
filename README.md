@@ -1,19 +1,15 @@
 # Symfony/Doctrine Seed Bundle
 
-[![Build Status](https://travis-ci.org/soyuka/SeedBundle.svg?branch=master)](https://travis-ci.org/soyuka/SeedBundle)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/bec4afda-4a87-4622-8aec-60ce66296617/mini.png)](https://insight.sensiolabs.com/projects/bec4afda-4a87-4622-8aec-60ce66296617)
+[![Build Status](https://travis-ci.org/ds-restauration/SeedBundle.svg?branch=master)](https://travis-ci.org/ds-restauration/SeedBundle)
+## Description
 
-/!\ Starting 01/01/18 I'll not actively maintain this project anymore. I'll merge PR's if any but I'm not using this anymore /!\
-
-## Why
-
-I needed something to load seed data that needed to stay in database. The only symfony bundle that could be used for this is the [DoctrineFixturesBundle](https://github.com/doctrine/DoctrineFixturesBundle). Those are fixtures, and should be used for testing only. Data included with this are removed/purged when the command is launched. Here, I want the data to be persistent.
-You can use it as a fixture bundle too by `unloading` data, but it is not it's main purpose.
+Generates and persists seed data.
+Derived from Soyuka's seed bundle: https://github.com/DsRestauration/SeedBundle
 
 ## Configuration
 
 ```yaml
-soyuka_seed:
+ds_restauration_seed:
   prefix: 'seed' #command prefix "seed:yourseedname"
   directory: 'Seeds' #default seed path: Bundle/Seeds
   separator: ':'
@@ -23,7 +19,7 @@ soyuka_seed:
 
 The `Seed` class is a `Command` and :
 
-- Must extend `Soyuka\SeedBundle\Command\Seed`
+- Must extend `DsRestauration\SeedBundle\Command\Seed`
 - Must have a class name that ends by `Seed`
 - Must call `setSeedName` in the configure method
 
@@ -32,7 +28,7 @@ The `Seed` class is a `Command` and :
 
 namespace AcmeBundle\ISOBundle\Seeds;
 
-use Soyuka\SeedBundle\Command\Seed;
+use DsRestauration\SeedBundle\Command\Seed;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -112,7 +108,8 @@ Every seed has a `getOrder` method that is used to sort them. The default value 
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015 Antoine Bluchet
+Copyright (c) 2019 Ds Restauration
+Copyright for the original project (Soyuka\SeedBundle) is held by Antoine Bluchet, 2015
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,12 +1,12 @@
 <?php
 
-namespace Soyuka\SeedBundle\Tests\fixtures\Seeds;
+namespace DsRestauration\SeedBundle\Tests\fixtures\Seeds;
 
-use Soyuka\SeedBundle\Command\Seed;
+use DsRestauration\SeedBundle\Command\Seed;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Soyuka\SeedBundle\Model\SeedInterface;
-use Soyuka\SeedBundle\Model\SeedOrderInterface;
+use DsRestauration\SeedBundle\Model\SeedInterface;
+use DsRestauration\SeedBundle\Model\SeedOrderInterface;
 
 class PostcodeSeed extends Seed implements SeedInterface, SeedOrderInterface
 {

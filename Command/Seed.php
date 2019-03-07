@@ -1,10 +1,10 @@
 <?php
 
-namespace Soyuka\SeedBundle\Command;
+namespace DsRestauration\SeedBundle\Command;
 
-use Soyuka\SeedBundle\Core\Seed as SeedCompatibility;
-use Soyuka\SeedBundle\Model\SeedOrderInterface;
-use Soyuka\SeedBundle\Model\SeedInterface;
+use DsRestauration\SeedBundle\Core\Seed as SeedCompatibility;
+use DsRestauration\SeedBundle\Model\SeedOrderInterface;
+use DsRestauration\SeedBundle\Model\SeedInterface;
 
 /**
  * @codeCoverageIgnore

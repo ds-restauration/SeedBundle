@@ -1,10 +1,10 @@
 <?php
 
-namespace Soyuka\SeedBundle\Tests\DependencyInjection;
+namespace DsRestauration\SeedBundle\Tests\DependencyInjection;
 
 //http://egeloen.fr/2013/12/08/unit-test-your-symfony2-bundle-di-like-a-boss/
 
-use Soyuka\SeedBundle\DependencyInjection\SoyukaSeedExtension;
+use DsRestauration\SeedBundle\DependencyInjection\DsRestaurationSeedExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -15,7 +15,7 @@ abstract class AbstractSeedExtensionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->extension = new SoyukaSeedExtension();
+        $this->extension = new DsRestaurationSeedExtension();
 
         $this->container = new ContainerBuilder();
         $this->container->registerExtension($this->extension);

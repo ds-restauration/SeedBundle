@@ -1,6 +1,6 @@
 <?php
 
-namespace Soyuka\SeedBundle\Core;
+namespace DsRestauration\SeedBundle\Core;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Finder\Finder;
@@ -53,7 +53,7 @@ class Loader extends Container
                 }
 
                 $r = new \ReflectionClass($class);
-                if ($r->isSubclassOf('Soyuka\\SeedBundle\\Command\\Seed') && !$r->isAbstract() && ($r->hasMethod('load') || $r->hasMethod('unload'))) {
+                if ($r->isSubclassOf('DsRestauration\\SeedBundle\\Command\\Seed') && !$r->isAbstract() && ($r->hasMethod('load') || $r->hasMethod('unload'))) {
                     $application->add(
                         $r->newInstanceArgs([$this->prefix, $this->separator])
                     );

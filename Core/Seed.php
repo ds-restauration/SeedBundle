@@ -1,6 +1,6 @@
 <?php
 
-namespace Soyuka\SeedBundle\Core;
+namespace DsRestauration\SeedBundle\Core;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;

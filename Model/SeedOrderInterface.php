@@ -1,6 +1,6 @@
 <?php
 
-namespace Soyuka\SeedBundle\Model;
+namespace DsRestauration\SeedBundle\Model;
 
 /**
  * Interface SeedInterface.

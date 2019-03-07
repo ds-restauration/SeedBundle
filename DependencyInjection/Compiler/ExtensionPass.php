@@ -1,6 +1,6 @@
 <?php
 
-namespace Soyuka\SeedBundle\DependencyInjection\Compiler;
+namespace DsRestauration\SeedBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

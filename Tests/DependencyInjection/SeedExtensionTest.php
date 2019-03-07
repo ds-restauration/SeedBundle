@@ -1,6 +1,6 @@
 <?php
 
-namespace Soyuka\SeedBundle\Tests\DependencyInjection;
+namespace DsRestauration\SeedBundle\Tests\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerInterface;

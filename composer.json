@@ -1,11 +1,11 @@
 {
-    "name": "soyuka/seed-bundle",
+    "name": "ds-restauration/seed-bundle",
     "description": "Seed helper through symfony commands",
     "license": "MIT",
     "authors": [
         {
-            "name": "Soyuka",
-            "email": "soyuka@gmail.com"
+            "name": "Ds Restauration",
+            "email": "informatique@ds-restauration.com"
         }
     ],
     "require": {
@@ -17,7 +17,7 @@
         "doctrine/orm": "~2.5"
     },
     "autoload": {
-      "psr-4": { "Soyuka\\SeedBundle\\": "" }
+      "psr-4": { "DsRestauration\\SeedBundle\\": "" }
     },
     "require-dev": {
         "phpunit/phpunit": "^5.2"

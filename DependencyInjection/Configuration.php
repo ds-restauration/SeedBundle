@@ -1,6 +1,6 @@
 <?php
 
-namespace Soyuka\SeedBundle\DependencyInjection;
+namespace DsRestauration\SeedBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('soyuka_seed');
+        $rootNode = $treeBuilder->root('ds_restauration_seed');
 
         $rootNode
             ->children()

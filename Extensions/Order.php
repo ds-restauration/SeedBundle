@@ -1,10 +1,10 @@
 <?php
 
-namespace Soyuka\SeedBundle\Extensions;
+namespace DsRestauration\SeedBundle\Extensions;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Soyuka\SeedBundle\Model\SeedExtensionInterface;
-use Soyuka\SeedBundle\Core\Seed;
+use DsRestauration\SeedBundle\Model\SeedExtensionInterface;
+use DsRestauration\SeedBundle\Core\Seed;
 
 class Order implements SeedExtensionInterface
 {

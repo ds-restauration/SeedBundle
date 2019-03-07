@@ -1,6 +1,6 @@
 <?php
 
-namespace Soyuka\SeedBundle\Model;
+namespace DsRestauration\SeedBundle\Model;
 
 /**
  * Implement this interface if the extension is changing the length

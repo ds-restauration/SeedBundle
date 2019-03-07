@@ -1,14 +1,14 @@
 <?php
 
-namespace Soyuka\SeedBundle\Extensions;
+namespace DsRestauration\SeedBundle\Extensions;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
-use Soyuka\SeedBundle\Model\SeedExtensionInterface;
-use Soyuka\SeedBundle\Model\AlterationExtensionInterface;
-use Soyuka\SeedBundle\Model\ConfigurableExtensionInterface;
-use Soyuka\SeedBundle\Core\Seed;
+use DsRestauration\SeedBundle\Model\SeedExtensionInterface;
+use DsRestauration\SeedBundle\Model\AlterationExtensionInterface;
+use DsRestauration\SeedBundle\Model\ConfigurableExtensionInterface;
+use DsRestauration\SeedBundle\Core\Seed;
 
 class Skip implements SeedExtensionInterface, AlterationExtensionInterface, ConfigurableExtensionInterface
 {
@@ -49,7 +49,7 @@ class Skip implements SeedExtensionInterface, AlterationExtensionInterface, Conf
     public function getHelp()
     {
         return <<<EOT
-   
+
 You can skip some seeds:
 
   <info>php app/console seeds:load --skip=Country --skip=Town</info>

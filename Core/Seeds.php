@@ -1,14 +1,14 @@
 <?php
 
-namespace Soyuka\SeedBundle\Core;
+namespace DsRestauration\SeedBundle\Core;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
-use Soyuka\SeedBundle\Model\AlterationExtensionInterface;
-use Soyuka\SeedBundle\Model\ConfigurableExtensionInterface;
+use DsRestauration\SeedBundle\Model\AlterationExtensionInterface;
+use DsRestauration\SeedBundle\Model\ConfigurableExtensionInterface;
 
 abstract class Seeds extends Command
 {

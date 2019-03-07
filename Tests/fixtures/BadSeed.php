@@ -1,8 +1,8 @@
 <?php
 
-namespace Soyuka\SeedBundle\Tests\fixtures;
+namespace DsRestauration\SeedBundle\Tests\fixtures;
 
-use Soyuka\SeedBundle\Command\Seed;
+use DsRestauration\SeedBundle\Command\Seed;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Soyuka\SeedBundle;
+namespace DsRestauration\SeedBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Console\Application;
-use Soyuka\SeedBundle\DependencyInjection\Compiler\ExtensionPass;
+use DsRestauration\SeedBundle\DependencyInjection\Compiler\ExtensionPass;
 
-class SoyukaSeedBundle extends Bundle
+class DsRestaurationSeedBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

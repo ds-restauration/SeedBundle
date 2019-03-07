@@ -1,8 +1,8 @@
 <?php
 
-namespace Soyuka\SeedBundle\Command;
+namespace DsRestauration\SeedBundle\Command;
 
-use Soyuka\SeedBundle\Core\Seeds;
+use DsRestauration\SeedBundle\Core\Seeds;
 
 final class UnloadSeedsCommand extends Seeds
 {
