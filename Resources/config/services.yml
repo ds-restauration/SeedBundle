@@ -6,6 +6,7 @@ services:
            - '%seed.separator%'
         calls:
             - [ setContainer, [ '@service_container' ] ]
+        public: true
 
     seed.seeds:
         class: 'DsRestauration\SeedBundle\Core\Seeds'
