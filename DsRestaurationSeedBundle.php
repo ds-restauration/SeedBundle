@@ -20,7 +20,7 @@ class DsRestaurationSeedBundle extends Bundle
 
     public function registerCommands(Application $application)
     {
-        $seeds = $this->container->get('seed.loader');
-        $seeds->loadSeeds($application);
+        $seeds = $this->container->get('seed.registrar');
+        $seeds->registerSeeds($application);
     }
 }
