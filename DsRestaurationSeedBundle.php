@@ -20,6 +20,7 @@ class DsRestaurationSeedBundle extends Bundle
 
     public function registerCommands(Application $application)
     {
+        // register the seeds as Symfony console commands
         $seeds = $this->container->get('seed.registrar');
         $seeds->registerSeeds($application);
     }
