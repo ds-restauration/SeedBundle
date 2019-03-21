@@ -9,9 +9,12 @@ Derived from Soyuka's seed bundle: https://github.com/soyuka/SeedBundle
 
 ```yaml
 ds_restauration_seed:
-  prefix: 'seed' #command prefix "seed:yourseedname"
-  directory: 'Seeds' #default seed path: Bundle/Seeds
+  prefix: 'seed' # Command prefix "seed:yourseedname"
+  directory: 'Seeds' # Default seed path: Bundle/Seeds
   separator: ':'
+  order: # Order to load seeds in, lowest loads first.  Any seed not in the list defaults to an order of 0
+    seed1: 1
+    seed2: 1
 ```
 
 ## Building a Seed
@@ -79,10 +82,6 @@ class CountrySeed extends Seed
 
         $this->manager->clear();
     }
-
-    public function getOrder() {
-      return 0;
-    }
 }
 ```
 
@@ -100,7 +99,7 @@ The global `seed:load` and `seed:unload` allow you to run multiple seeds in one 
 
 ## Seed order
 
-Every seed has a `getOrder` method that is used to sort them. The default value is `0`.
+Seed order is defined in the configuration file.  Seeds with the lowest order are loaded first.  Any seeds for whom the order is not defined will default to order 0  (will load first).  Seed unloading occurs in the inverse order.
 
 ## Licence
 

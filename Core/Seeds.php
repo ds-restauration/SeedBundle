@@ -2,7 +2,8 @@
 
 namespace DsRestauration\SeedBundle\Core;
 
-use Symfony\Component\Console\Command\Command;
+use DesRestauration\SeedBundle\Core\Tools;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use DsRestauration\SeedBundle\Model\AlterationExtensionInterface;
 use DsRestauration\SeedBundle\Model\ConfigurableExtensionInterface;
 
-abstract class Seeds extends Command
+abstract class Seeds extends ContainerAwareCommand
 {
     private $separator = ':';
     private $prefix;
@@ -76,7 +77,9 @@ EOT;
         $debug = $input->getOption('debug');
         $from = $input->getOption('from');
 
-        $commands = $this->getSeedsCommands();
+        $app = $this->getApplication();
+        $commands = $this->getSeedCommands($app);
+        $seedOrder = $this->getContainer()->getParameter('seed.order');
 
         foreach ($this->extensions as $extension) {
             if ($extension instanceof AlterationExtensionInterface) {
@@ -109,13 +112,21 @@ EOT;
         }
 
         //Loop and execute every seed by printing tstart/tend
-
         for ($i = 0; $i < $l; ++$i) {
+            $command = $commands[$i];
+
+            $commandName = $command->getName();
+            $commandName = substr($commandName, strrpos($commandName, ':') + 1);
+            $order = 0;
+
+            if (isset($seedOrder[$commandName])) {
+                $order = $seedOrder[$commandName];
+            }
 
             $tstart = microtime(true);
 
             if (false === $startFrom) {
-              if ($from !== $commands[$i]->getName()) {
+              if ($from !== $commandName) {
                 continue;
               } else {
                 $startFrom = true;
@@ -124,13 +135,13 @@ EOT;
 
             $output->writeln(sprintf(
                 '<info>[%d] Starting %s</info>',
-                $commands[$i]->getOrder(), $commands[$i]->getName()
+                $order, $commandName
             ));
 
             if ($debug) {
                 $code = 0;
             } else {
-                $code = $commands[$i]->run($arguments, $output);
+                $code = $command->run($arguments, $output);
             }
 
             $time = microtime(true) - $tstart;
@@ -138,7 +149,7 @@ EOT;
             if ($code === 0) {
                 $output->writeln(sprintf(
                     '<info>[%d] Seed %s done (+%d seconds)</info>',
-                    $commands[$i]->getOrder(), $commands[$i]->getName(), $time
+                    $order, $commandName, $time
                 ));
 
                 continue;
@@ -146,7 +157,7 @@ EOT;
 
             $output->writeln(sprintf(
                 '<error>[%d] Seed %s failed (+%d seconds)</error>',
-                $commands[$i]->getOrder(), $commands[$i]->getName(), $time
+                $order, $commandName, $time
             ));
 
             if ($break === true) {
@@ -154,6 +165,7 @@ EOT;
                 break;
             }
         }
+
         return $returnCode;
     }
 
@@ -164,9 +176,8 @@ EOT;
      *
      * @return array commands
      */
-    private function getSeedsCommands(): array
+    private function getSeedCommands($app): array
     {
-        $app = $this->getApplication();
         $commands = [];
 
         //Get every command, if no seeds argument we take all available seeds
@@ -178,6 +189,30 @@ EOT;
             }
         }
 
+        return $this->orderSeedCommands($commands);
+    }
+
+    /**
+     * Order the seeds (lowest runs first, default is 0)
+     */
+    private function orderSeedCommands($commands) {
+        usort($commands, function ($commandA, $commandB) {
+            return $this->getSeedOrder($commandA) - $this->getSeedOrder($commandB);
+        });
+
         return $commands;
+    }
+
+    private function getSeedOrder($command) {
+        $seedOrder = $this->getContainer()->getParameter('seed.order');
+        $commandName = $command->getName();
+        $commandName = substr($commandName, strrpos($commandName, ':') + 1);
+        $order = 0;
+
+        if (isset($seedOrder[$commandName])) {
+            $order = $seedOrder[$commandName];
+        }
+
+        return $order;
     }
 }

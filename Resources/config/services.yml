@@ -31,10 +31,6 @@ services:
         class: 'DsRestauration\SeedBundle\Extensions\Skip'
         tags: [ {name: 'seed.extension', priority: 1 } ]
         public: true
-    seed.extension.order:
-        class: 'DsRestauration\SeedBundle\Extensions\Order'
-        tags: [ {name: 'seed.extension', priority: 1 } ]
-        public: true
     seed.extension.matches:
         class: 'DsRestauration\SeedBundle\Extensions\Matches'
         tags: [ {name: 'seed.extension', priority: 0 } ]
