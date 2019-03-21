@@ -41,7 +41,8 @@ abstract class Seeds extends ContainerAwareCommand
             ->setDescription('Load requested seeds')
             ->addOption('break', '-b', InputOption::VALUE_NONE)
             ->addOption('debug', '-d', InputOption::VALUE_NONE)
-            ->addOption('from', '-f', InputOption::VALUE_REQUIRED);
+            ->addOption('from', '-f', InputOption::VALUE_REQUIRED)
+            ->addOption('bundle', '-bn', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY); # load only the seeds in the bundle/s specified
         $help = <<<EOT
 
 This command loads/unloads a list of seeds
@@ -76,9 +77,10 @@ EOT;
         $break = $input->getOption('break');
         $debug = $input->getOption('debug');
         $from = $input->getOption('from');
+        $bundle = $input->getOption('bundle');
 
         $app = $this->getApplication();
-        $commands = $this->getSeedCommands($app);
+        $commands = $this->getSeedCommands($app, $bundle);
         $seedOrder = $this->getContainer()->getParameter('seed.order');
 
         foreach ($this->extensions as $extension) {
@@ -176,14 +178,14 @@ EOT;
      *
      * @return array commands
      */
-    private function getSeedCommands($app): array
+    private function getSeedCommands($app, $bundle): array
     {
         $commands = [];
 
-        //Get every command, if no seeds argument we take all available seeds
-        foreach ($app->all() as $command) {
-            //is this a seed?
-            if ($command instanceof Seed) {
+        // Get every command, if no seeds argument we take all available seeds
+        foreach ($app->all() as $key => $command) {
+            // Test if it's a Seed and if it's in a bundle supplied by the optional bundle parameter.
+            if ($command instanceof Seed && (empty($bundle) || in_array($command->getBundleName(), $bundle))) {
                 $commands[] = $command;
                 continue;
             }

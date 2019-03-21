@@ -44,8 +44,9 @@ class CountrySeed extends Seed
     {
         //The seed won't load if this is not set
         //The resulting command will be {prefix}:country
-        $this
-            ->setSeedName('country');
+        $this->setSeedName('country');
+        //Needed if you want to load seeds by bundle
+        $this->setBundleName('geo');
 
         parent::configure();
     }
@@ -100,6 +101,11 @@ The global `seed:load` and `seed:unload` allow you to run multiple seeds in one 
 ## Seed order
 
 Seed order is defined in the configuration file.  Seeds with the lowest order are loaded first.  Any seeds for whom the order is not defined will default to order 0  (will load first).  Seed unloading occurs in the inverse order.
+
+## Loading seeds by bundle/s
+
+Can be done with the --bundle or -bn option of seed:load  (seed:load --bundle geo --bundle params)
+In this example, only those seeds who have had their bundle defined as 'geo' or 'params' will be loaded.
 
 ## Licence
 

@@ -16,6 +16,8 @@ abstract class Seed extends ContainerAwareCommand
     private $prefix;
     /** @var string **/
     private $seedName;
+    /** @var string **/
+    protected $bundleName;
 
     /** @var Registry **/
     protected $doctrine;
@@ -35,7 +37,6 @@ abstract class Seed extends ContainerAwareCommand
     {
         $this->prefix = $prefix;
         $this->separator = $separator;
-
         parent::__construct();
     }
 
@@ -62,6 +63,24 @@ abstract class Seed extends ContainerAwareCommand
     public function getSeedName(): string
     {
         return $this->seedName;
+    }
+
+    /**
+     * @param string $name
+     */
+    protected function setBundleName($name)
+    {
+        $this->bundleName = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBundleName(): ?string
+    {
+        return $this->bundleName;
     }
 
     /**
