@@ -42,7 +42,8 @@ abstract class Seeds extends ContainerAwareCommand
             ->addOption('break', '-b', InputOption::VALUE_NONE)
             ->addOption('debug', '-d', InputOption::VALUE_NONE)
             ->addOption('from', '-f', InputOption::VALUE_REQUIRED)
-            ->addOption('bundle', '-bn', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY); # load only the seeds in the bundle/s specified
+            ->addOption('bundle', '-bn', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY) # load only the seeds in the bundle/s specified
+            ->addOption('seed', '-s', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY); # load only the seed/s specified
         $help = <<<EOT
 
 This command loads/unloads a list of seeds
@@ -78,9 +79,10 @@ EOT;
         $debug = $input->getOption('debug');
         $from = $input->getOption('from');
         $bundle = $input->getOption('bundle');
+        $seed = $input->getOption('seed');
 
         $app = $this->getApplication();
-        $commands = $this->getSeedCommands($app, $bundle);
+        $commands = $this->getSeedCommands($app, $bundle, $seed);
         $seedOrder = $this->getContainer()->getParameter('seed.order');
 
         foreach ($this->extensions as $extension) {
@@ -178,17 +180,24 @@ EOT;
      *
      * @return array commands
      */
-    private function getSeedCommands($app, $bundle): array
+    private function getSeedCommands($app, $bundle, $seed): array
     {
         $commands = [];
 
         // Get every command, if no seeds argument we take all available seeds
         foreach ($app->all() as $key => $command) {
-            // Test if it's a Seed and if it's in a bundle supplied by the optional bundle parameter.
-            if ($command instanceof Seed && (empty($bundle) || in_array($command->getBundleName(), $bundle))) {
-                $commands[] = $command;
-                continue;
+
+            if ($command instanceof Seed) {
+                // if the optional bundle parameter is specified, only load seeds in those bundles
+                $bundleFilter = empty($bundle) || in_array($command->getBundleName(), $bundle);
+                // if the optional seed parameter is specified, only load seeds of that name
+                $seedFilter = empty($seed) || in_array($command->getSeedName(), $seed);
+
+                if ($bundleFilter && $seedFilter) {
+                    $commands[] = $command;
+                }
             }
+
         }
 
         return $this->orderSeedCommands($commands);

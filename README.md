@@ -107,6 +107,11 @@ Seed order is defined in the configuration file.  Seeds with the lowest order ar
 Can be done with the --bundle or -bn option of seed:load  (seed:load --bundle geo --bundle params)
 In this example, only those seeds who have had their bundle defined as 'geo' or 'params' will be loaded.
 
+## Loading particular seeds only
+
+Can be done with the --seed or -s option of seed:load  (seed:load --seed countries --seed regions)
+In this example, only those seeds who have had their seed defined as 'countries' or 'regions' will be loaded.
+
 ## Licence
 
 ```
