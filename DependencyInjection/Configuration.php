@@ -28,10 +28,14 @@ class Configuration implements ConfigurationInterface
                 ->info('The seeds directory')->end()
                 ->scalarNode('separator')->defaultValue(':')
                 ->info('The seeds separator')->end()
-                ->arrayNode('order')
+                ->arrayNode('seed_order')
                     ->useAttributeAsKey('name')
                     ->prototype('scalar')->end()
                 ->info('The order to load the seeds')->end()
+                ->arrayNode('bundle_order')
+                    ->useAttributeAsKey('name')
+                    ->prototype('scalar')->end()
+                ->info('The order to load the bundles')->end()
             ->end();
 
         return $treeBuilder;

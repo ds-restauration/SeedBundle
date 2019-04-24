@@ -12,9 +12,13 @@ ds_restauration_seed:
   prefix: 'seed' # Command prefix "seed:yourseedname"
   directory: 'Seeds' # Default seed path: Bundle/Seeds
   separator: ':'
-  order: # Order to load seeds in, lowest loads first.  Any seed not in the list defaults to an order of 0
-    seed1: 1
+  seed_order: # Order to load seeds in, lowest loads first.  Any seed not in the list defaults to an order of 0
+    seed1: -1
     seed2: 1
+  seed_bundle: # Order to load bundles in, lowest loads first.  Any bundles not in the list defaults to an order of 0
+    bundle1: -1
+    bundle2: 1
+
 ```
 
 ## Building a Seed
@@ -100,7 +104,11 @@ The global `seed:load` and `seed:unload` allow you to run multiple seeds in one 
 
 ## Seed order
 
-Seed order is defined in the configuration file.  Seeds with the lowest order are loaded first.  Any seeds for whom the order is not defined will default to order 0  (will load first).  Seed unloading occurs in the inverse order.
+Seed order is defined in the configuration file.  Seeds with the lowest order are loaded first.  Any seeds for whom the order is not defined will default to order 0  (will load first).
+
+## Bundle order
+
+Similar to seed order, bundle order is defined in the configuration file.  Bundles with the lowest order are loaded first.  Any bundles for whom the order is not defined will default to order 0 (will load first).
 
 ## Loading seeds by bundle/s
 
@@ -111,6 +119,14 @@ In this example, only those seeds who have had their bundle defined as 'geo' or 
 
 Can be done with the --seed or -s option of seed:load  (seed:load --seed countries --seed regions)
 In this example, only those seeds who have had their seed defined as 'countries' or 'regions' will be loaded.
+
+## Skipping seeds
+
+One or more seeds can be skipped with the '--skip' parameter
+
+## Skipping bundles
+
+One or more bundles can be skipped with the '--skip-bundle' parameter
 
 ## Licence
 

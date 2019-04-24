@@ -43,6 +43,7 @@ abstract class Seeds extends ContainerAwareCommand
             ->addOption('debug', '-d', InputOption::VALUE_NONE)
             ->addOption('from', '-f', InputOption::VALUE_REQUIRED)
             ->addOption('bundle', '-bn', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY) # load only the seeds in the bundle/s specified
+            ->addOption('skip-bundle', '-sb', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY) # don't load the seeds in the bundle/s specified
             ->addOption('seed', '-s', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY); # load only the seed/s specified
         $help = <<<EOT
 
@@ -80,10 +81,12 @@ EOT;
         $from = $input->getOption('from');
         $bundle = $input->getOption('bundle');
         $seed = $input->getOption('seed');
+        $bundlesToSkip = $input->getOption('skip-bundle');
 
         $app = $this->getApplication();
-        $commands = $this->getSeedCommands($app, $bundle, $seed);
-        $seedOrder = $this->getContainer()->getParameter('seed.order');
+        $commands = $this->getSeedCommands($app, $bundle, $bundlesToSkip, $seed);
+        $seedOrder = $this->getContainer()->getParameter('seed.seed_order');
+        $bundleOrder = $this->getContainer()->getParameter('seed.bundle_order');
 
         foreach ($this->extensions as $extension) {
             if ($extension instanceof AlterationExtensionInterface) {
@@ -121,10 +124,15 @@ EOT;
 
             $commandName = $command->getName();
             $commandName = substr($commandName, strrpos($commandName, ':') + 1);
-            $order = 0;
+            $seedOrder = 0;
+            $bundleOrder = 0;
 
             if (isset($seedOrder[$commandName])) {
-                $order = $seedOrder[$commandName];
+                $seedOrder = $seedOrder[$commandName];
+            }
+
+            if (isset($bundleOrder[$commandName])) {
+                $bundleOrder = $bundleOrder[$commandName];
             }
 
             $tstart = microtime(true);
@@ -137,10 +145,8 @@ EOT;
               }
             }
 
-            $output->writeln(sprintf(
-                '<info>[%d] Starting %s</info>',
-                $order, $commandName
-            ));
+            $orderText = "B$bundleOrder S$seedOrder";
+            $output->writeln("<info>[$orderText] Starting $commandName</info>");
 
             if ($debug) {
                 $code = 0;
@@ -151,18 +157,12 @@ EOT;
             $time = microtime(true) - $tstart;
 
             if ($code === 0) {
-                $output->writeln(sprintf(
-                    '<info>[%d] Seed %s done (+%d seconds)</info>',
-                    $order, $commandName, $time
-                ));
+                $output->writeln("<info>[$orderText] Seed $commandName done (+$time seconds)</info>");
 
                 continue;
             }
 
-            $output->writeln(sprintf(
-                '<error>[%d] Seed %s failed (+%d seconds)</error>',
-                $order, $commandName, $time
-            ));
+            $output->writeln("<error>[$orderText] Seed $commandName failed (+$time seconds)</error>");
 
             if ($break === true) {
                 $returnCode = 1;
@@ -180,7 +180,7 @@ EOT;
      *
      * @return array commands
      */
-    private function getSeedCommands($app, $bundle, $seed): array
+    private function getSeedCommands($app, $bundle, $bundlesToSkip, $seed): array
     {
         $commands = [];
 
@@ -189,11 +189,12 @@ EOT;
 
             if ($command instanceof Seed) {
                 // if the optional bundle parameter is specified, only load seeds in those bundles
-                $bundleFilter = empty($bundle) || in_array($command->getBundleName(), $bundle);
+                $loadBundle = empty($bundle) || in_array($command->getBundleName(), $bundle);
                 // if the optional seed parameter is specified, only load seeds of that name
-                $seedFilter = empty($seed) || in_array($command->getSeedName(), $seed);
+                $loadSeed = empty($seed) || in_array($command->getSeedName(), $seed);
+                $skipBundle = !empty($bundlesToSkip) && in_array($command->getBundleName(), $bundlesToSkip);
 
-                if ($bundleFilter && $seedFilter) {
+                if ($loadBundle && $loadSeed && !$skipBundle) {
                     $commands[] = $command;
                 }
             }
@@ -204,24 +205,34 @@ EOT;
     }
 
     /**
-     * Order the seeds (lowest runs first, default is 0)
+     * Order the seeds (lowest runs first, default is 0, also considers bundle order)
      */
     private function orderSeedCommands($commands) {
         usort($commands, function ($commandA, $commandB) {
-            return $this->getSeedOrder($commandA) - $this->getSeedOrder($commandB);
+            $seedOrder = $this->getSeedOrder($commandA) - $this->getSeedOrder($commandB);
+            $bundleOrder = $this->getBundleOrder($commandA) - $this->getBundleOrder($commandB);
+            return ($bundleOrder * 1e10) + $seedOrder;
         });
 
         return $commands;
     }
 
     private function getSeedOrder($command) {
-        $seedOrder = $this->getContainer()->getParameter('seed.order');
         $commandName = $command->getName();
         $commandName = substr($commandName, strrpos($commandName, ':') + 1);
+        return $this->getOrder($commandName, 'seed.seed_order');
+    }
+
+    private function getBundleOrder($command) {
+        return $this->getOrder($command->getBundleName(), 'seed.bundle_order');;
+    }
+
+    private function getOrder($commandName, $param) {
+        $orders = $this->getContainer()->getParameter($param);
         $order = 0;
 
-        if (isset($seedOrder[$commandName])) {
-            $order = $seedOrder[$commandName];
+        if (isset($orders[$commandName])) {
+            $order = $orders[$commandName];
         }
 
         return $order;

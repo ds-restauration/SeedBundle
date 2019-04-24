@@ -24,7 +24,8 @@ class DsRestaurationSeedExtension extends Extension
         $container->setParameter('seed.prefix', $config['prefix']);
         $container->setParameter('seed.directory', $config['directory']);
         $container->setParameter('seed.separator', $config['separator']);
-        $container->setParameter('seed.order', $config['order']);
+        $container->setParameter('seed.seed_order', $config['seed_order']);
+        $container->setParameter('seed.bundle_order', $config['bundle_order']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
