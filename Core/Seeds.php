@@ -85,8 +85,8 @@ EOT;
 
         $app = $this->getApplication();
         $commands = $this->getSeedCommands($app, $bundle, $bundlesToSkip, $seed);
-        $seedOrder = $this->getContainer()->getParameter('seed.seed_order');
-        $bundleOrder = $this->getContainer()->getParameter('seed.bundle_order');
+        $seedsOrder = $this->getContainer()->getParameter('seed.seed_order');
+        $bundlesOrder = $this->getContainer()->getParameter('seed.bundle_order');
 
         foreach ($this->extensions as $extension) {
             if ($extension instanceof AlterationExtensionInterface) {
@@ -123,16 +123,17 @@ EOT;
             $command = $commands[$i];
 
             $commandName = $command->getName();
+            $bundleName = $command->getBundleName();
             $commandName = substr($commandName, strrpos($commandName, ':') + 1);
             $seedOrder = 0;
             $bundleOrder = 0;
 
-            if (isset($seedOrder[$commandName])) {
-                $seedOrder = $seedOrder[$commandName];
+            if (isset($seedsOrder[$commandName])) {
+                $seedOrder = $seedsOrder[$commandName];
             }
 
-            if (isset($bundleOrder[$commandName])) {
-                $bundleOrder = $bundleOrder[$commandName];
+            if (isset($bundlesOrder[$bundleName])) {
+                $bundleOrder = $bundlesOrder[$bundleName];
             }
 
             $tstart = microtime(true);
